@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>D3 Page Template</title>
+<script type="text/javascript" src="d3/d3.js"></script>
+</head>
+<body>
+<script type="text/javascript">
+	var dataset = [5, 10, 15, 20, 25 ];
+
+	d3.select("body").selectAll("p")
+			.data(dataset)
+			.enter()
+			.append("p")
+			//.text("New paragraph!"); // creates 5 new paragraphs
+			.text(function(d) { return d; }) // to return the data value associated .. . actually stored in memory in the __data__ attribute
+			.style("color", function(d) { // styling paragraphs based on data value
+				if (d > 15) {
+				//Threshold of 15
+					return "red";
+				} else {
+					return "black";
+				}	
+				});
+
+</script>
+</body>
+</html>

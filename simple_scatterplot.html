@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>D3 Page Template</title>
+<script type="text/javascript" src="d3/d3.js"></script>
+</head>
+<body>
+<script type="text/javascript">
+var dataset = [
+[5, 20], [480, 90], [250, 50], [100, 33], [330, 95],
+[410, 12], [475, 44], [25, 67], [85, 21], [220, 88]
+];
+
+var w = 600;
+var h = 100;
+
+var svg = d3.select("body")
+.append("svg")
+.attr("width", w)
+.attr("height", h);
+
+var circles = svg.selectAll("circle")
+.data(dataset)
+.enter()
+.append("circle");
+
+circles.attr("cx", function(d) { // first value in each iteration
+return d[0];
+})
+.attr("cy", function(d) { // second value in each iteration
+return d[1];
+})
+.attr("r", 5); // fixed size circles
+/*.attr("r", function(d) { circles at top have larger size than circles at bottom
+return Math.sqrt(h - d[1]);
+});
+*/
+
+var labels = svg.selectAll("text")
+				.data(dataset)
+				.enter()
+				.append("text");
+labels.text(function(d){
+	return d[0] + "," + d[1];
+})
+.attr("x", function(d) {
+return d[0];
+})
+.attr("y", function(d) {
+return d[1];
+})
+.attr("font-family", "sans-serif")
+.attr("font-size", "11px")
+.attr("fill", "blue");
+
+
+
+</script>
+</body>
+</html>

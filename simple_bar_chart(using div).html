@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>D3 Page Template</title>
+<script type="text/javascript" src="d3/d3.js"></script>
+<style type="text/css">
+			div.bar {
+				display: inline-block;
+				width: 20px;
+				height: 75px;	/* Gets overriden by D3-assigned height below */
+				background-color: teal;
+				margin-right: 2px; /* Generates some space to the right of each div (i.e. each "bar" in our case) */
+			}
+		</style>
+</head>
+<body>
+<script type="text/javascript">
+var dataset = [ 5, 10, 15, 20, 25 ];
+d3.select("body").selectAll("div")
+.data(dataset)
+.enter()
+.append("div")
+.attr("class", "bar")
+.style("height", function(d) {
+var barHeight = d * 5; //Scale up by factor of 5
+return barHeight + "px";
+});
+</script>
+</body>
+</html>

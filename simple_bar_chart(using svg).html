@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>D3 Page Template</title>
+<script type="text/javascript" src="d3/d3.js"></script>
+</head>
+<body>
+<script type="text/javascript">
+
+var dataset = [ 5, 10, 13, 19, 21, 25, 22, 18, 15, 13,
+11, 12, 15, 20, 18, 17, 16, 18, 23, 25 ];
+
+var w = 500;
+var h = 100;
+
+var svg = d3.select("body")
+.append("svg")
+.attr("width", w)
+.attr("height", h);
+
+var rect = svg.selectAll("rect")
+.data(dataset)
+.enter()
+.append("rect")
+.attr("x", function(d, i) {
+return i * (w / dataset.length);
+})
+.attr("y", function(d) {
+return h - (d *4); // if this is not done, the bars come from up to down !! SVG axis
+})
+.attr("width", 20)
+.attr("height", function(d) {
+return d * 4; // to magnify size
+})
+.attr("fill", function(d) {  // filling color based on data value
+return "rgb(0, 0, " + (d * 10) + ")";
+});
+
+var labels = svg.selectAll("text")
+.data(dataset)
+.enter()
+.append("text")
+.text(function(d) {
+return d;
+})
+.attr("x", function(d, i) {
+return i * (w / dataset.length) + 10;
+})
+.attr("y", function(d) {
+return h - (d * 4) + 15;
+})
+.attr("font-family", "sans-serif")
+.attr("font-size", "11px")
+.attr("fill", "white")
+.attr("text-anchor", "middle");
+
+
+
+
+</script>
+</body>
+</html>
