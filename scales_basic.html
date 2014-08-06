@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>D3 Page Template</title>
+<script type="text/javascript" src="d3/d3.js"></script>
+</head>
+<body>
+<script type="text/javascript">
+
+var scale = d3.scale.linear()
+			.domain([100, 500]) // INPUT Domain
+			.range([10, 350]) // OUTPUT Range
+			.clamp(); // this is not mandatory or even needed in this case but is a good thing to have when you don't want values outside the input domain to cause the scale to return a value outside the output range
+// now, scale(100) will return 10 and scale(500) will return 350
+
+
+</script>
+</body>
+</html>

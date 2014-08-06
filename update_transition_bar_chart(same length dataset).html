@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>D3: A flexible, scalable bar chart</title>
+		<script type="text/javascript" src="d3/d3.js"></script>
+		<style type="text/css">
+			/* No style rules here yet */		
+		</style>
+	</head>
+	<body>
+		<p>Click on this text to update the chart with new data values (once).</p>
+		<script type="text/javascript">
+
+			//Width and height
+			var w = 600;
+			var h = 250;
+
+			var dataset = [ 5, 10, 13, 19, 21, 25, 22, 18, 15, 13,
+							11, 12, 15, 20, 18, 17, 16, 18, 23, 25 ];
+
+			var xScale = d3.scale.ordinal()
+							.domain(d3.range(dataset.length)) // generates sequence of numbers from 0 to n
+							.rangeRoundBands([0, w], 0.05); // optimal width
+
+			var yScale = d3.scale.linear()
+							.domain([0, d3.max(dataset)])
+							.range([0, h]);
+
+			//Create SVG element
+			var svg = d3.select("body")
+						.append("svg")
+						.attr("width", w)
+						.attr("height", h);
+
+			//Create bars
+			svg.selectAll("rect")
+			   .data(dataset)
+			   .enter()
+			   .append("rect")
+			   .attr("x", function(d, i) {
+			   		return xScale(i);
+			   })
+			   .attr("y", function(d) {
+			   		return h - yScale(d);
+			   })
+			   .attr("width", xScale.rangeBand())
+			   .attr("height", function(d) {
+			   		return yScale(d);
+			   })
+			   .attr("fill", function(d) {
+					return "rgb(0, 0, " + (d * 10) + ")";
+			   });
+
+			//Create labels
+			svg.selectAll("text")
+			   .data(dataset)
+			   .enter()
+			   .append("text")
+			   .text(function(d) {
+			   		return d;
+			   })
+			   .attr("text-anchor", "middle")
+			   .attr("x", function(d, i) {
+			   		return xScale(i) + xScale.rangeBand() / 2;
+			   })
+			   .attr("y", function(d) {
+			   		return h - yScale(d) + 14;
+			   })
+			   .attr("font-family", "sans-serif")
+			   .attr("font-size", "11px")
+			   .attr("fill", "white");
+
+			// ----------------------------------
+			// handling click event for paragraph
+			// ----------------------------------
+			d3.select("p")
+			  .on("click", function() { // NOTE only "y" and "height" are being changed for rect (this depends on use case)
+				//New values for dataset
+var numValues = dataset.length;
+dataset = [];
+for (var i = 0; i < numValues; i++) {
+var newNumber = Math.floor(Math.random()*100); 
+dataset.push(newNumber);
+}
+
+// update scale (NOTE: it is important to update the scale before drawing other stuff because duh! scale is being used by the "other stuff")
+yScale.domain([0, d3.max(dataset)]);
+
+
+//Update all rects
+svg.selectAll("rect")
+.data(dataset)
+.transition() // IF TRANSITIONS IS NEEDED
+.delay(function(d, i) { // staggered delay (can also take a static value but this makes it cool), be careful with a bigger dataset
+return i * 100;
+})
+.duration(1000) // decides how long it will take for the transition to occur
+.attr("x", function(d, i) {
+			   		return xScale(i);
+			   })
+.attr("width", xScale.rangeBand())
+.attr("y", function(d) {
+return h - yScale(d);
+})
+.attr("height", function(d) {
+return yScale(d);
+})
+.attr("fill", function(d) {
+return "rgb(0, 0, " + (d * 10) + ")";
+});
+
+//updating labels
+svg.selectAll("text")
+.data(dataset)
+.transition() // NOTE: don't forget to modify this bit as this can lead to the labels changing position at a different speed than the other bars
+.delay(function(d, i) { 
+return i * 100;
+})
+.duration(1000)
+.text(function(d) {
+return d;
+})
+.attr("x", function(d, i) {
+return xScale(i) + xScale.rangeBand() / 2;
+})
+.attr("y", function(d) {
+return h - yScale(d) + 14;
+});
+
+
+	});
+
+
+
+		</script>
+	</body>
+</html>
