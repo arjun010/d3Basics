@@ -14,26 +14,29 @@
 
 			var dataset = [ 5, 10, 20, 45, 6, 25];
 
-			var outerRadius = w / 2;
-			var innerRadius = 0;
-			var arc = d3.svg.arc()
-							.innerRadius(innerRadius)
-							.outerRadius(outerRadius);
-			
-			var pie = d3.layout.pie(); // pie() just takes normal data and converts it to something which can be used to make a pie chart
-			
-			//Easy colors accessible via a 10-step ordinal scale
-			var color = d3.scale.category10();
-
 			//Create SVG element
 			var svg = d3.select("body")
 						.append("svg")
 						.attr("width", w)
 						.attr("height", h);
 			
+
+			var pie = d3.layout.pie(); // pie() just takes normal data and converts it to something which can be used to make a pie chart
+			
+
+			var outerRadius = w / 2;
+			var innerRadius = 0;
+			var arc = d3.svg.arc()
+							.innerRadius(innerRadius)
+							.outerRadius(outerRadius);
+			
+			
+			//Easy colors accessible via a 10-step ordinal scale
+			var color = d3.scale.category10();
+
 			//Set up groups (a.k.a get the arcs ready)
 			var arcs = svg.selectAll("g.arc")
-						  .data(pie(dataset))
+						  .data(pie(dataset)) // pie() being used
 						  .enter()
 						  .append("g")
 						  .attr("class", "arc")

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<script type="text/javascript" src="../d3/d3.js"></script>
+		<style type="text/css">
+			/* No style rules here yet */		
+		</style>
+	</head>
+	<body>
+		<script type="text/javascript">
+
+			//Width and height
+			var w = 670;
+			var h = 250;
+
+			var dataset1 = [ 390000, 675000, 350000, 950000];
+			var dataset2 = [ 375000, 693000, 346000, 925000];
+
+
+			var xScale1 = d3.scale.ordinal()
+							.domain(d3.range(dataset1.length))
+							.rangeRoundBands([0, w], 0.05);
+
+			var yScale1 = d3.scale.linear()
+							.domain([0, d3.max(dataset1)])
+							.range([0, h]);
+
+			var xScale2 = d3.scale.ordinal()
+							.domain(d3.range(dataset2.length))
+							.rangeRoundBands([0, w], 0.05);
+
+			
+			var yScale2 = d3.scale.linear()
+							.domain([0, d3.max(dataset2)])
+							.range([0, h]);
+
+			var diff = d3.max(dataset1)-d3.max(dataset2); 
+			if(diff>0){
+				yScale2.range([0,h-05]);
+			}else if (diff<0){
+				yScale1.range([0,h-05]);
+			}
+
+
+
+//Q1
+			//Create SVG element
+			var svg1 = d3.select("body")
+						.append("svg")
+						.attr("width", w)
+						.attr("height", 300);
+
+			//Create bars
+			svg1.selectAll("q1.d1")
+			   .data(dataset1)
+			   .enter()
+			   .append("rect")
+			   .attr("x", function(d, i) {
+			   		return xScale1(i);
+			   })
+			   .attr("y", function(d) {
+			   		return h - yScale1(d);
+			   })
+			   .attr("width", xScale1.rangeBand())
+			   .attr("height", function(d) {
+			   		return yScale1(d);
+			   })
+			   .attr("fill", function(d) {
+					return "rgba(0,0,"+(d*10)+",0.5)";//"rgb(0, 0, " + (d * 10) + ")";
+			   })
+			   .attr("class","q1.d1")
+			   .on("mouseover", function() {
+			   		d3.select(this)
+			   			.attr("fill", "orange");
+			   })
+			   .on("mouseout", function(d) {
+				   d3.select(this)
+						.attr("fill", "rgba(0, 0, " + (d * 10) + ",0.5)");
+			   })
+			   .append("title") // THIS IS THE PROPERTY WHICH adds the TOOLTIP 
+			   .text(function(d){
+			   		return "Value associated with this bar is: " + d;
+			   });
+
+			svg1.selectAll("q1.d2")
+			   .data(dataset2)
+			   .enter()
+			   .append("rect")
+			   .attr("x", function(d, i) {
+			   		return xScale2(i)+10;
+			   })
+			   .attr("y", function(d) {
+			   		return h - yScale2(d);
+			   })
+			   .attr("width", xScale2.rangeBand()-20)
+			   .attr("height", function(d) {
+			   		return yScale2(d);
+			   })
+			   .attr("fill", function(d) {
+					return "rgba(0,"+(d*10)+",0,0.5)";
+			   })
+			   .attr("class","q1.d2")
+			   .on("mouseover", function() {
+			   		d3.select(this)
+			   			.attr("fill", "orange");
+			   })
+			   .on("mouseout", function(d) {
+				   d3.select(this)
+						.attr("fill", "rgba(0,"+(d*10)+",0,0.5)");
+			   })
+			   .append("title") // THIS IS THE PROPERTY WHICH adds the TOOLTIP 
+			   .text(function(d){
+			   		return "Value associated with this bar is: " + d;
+			   });
+
+			   svg1.append("text")
+				.attr("x",34)
+				.attr("y",265)
+					.attr("font-family", "sans-serif")
+					.attr("font-size", "16px")
+					.attr("font-weight", "bold")
+				.text("Distribution");
+
+			svg1.append("text")
+				.attr("x",220)
+				.attr("y",265)
+					.attr("font-family", "sans-serif")
+					.attr("font-size", "16px")
+					.attr("font-weight", "bold")
+				.text("Facilities");
+
+			svg1.append("text")
+				.attr("x",347)
+				.attr("y",265)
+					.attr("font-family", "sans-serif")
+					.attr("font-size", "16px")
+					.attr("font-weight", "bold")
+				.text("Human Resources");
+
+			svg1.append("text")
+				.attr("x",508)
+				.attr("y",265)
+					.attr("font-family", "sans-serif")
+					.attr("font-size", "16px")
+					.attr("font-weight", "bold")
+				.text("Information Systems");
+
+			svg1.append("text")
+				.attr("x",0)
+				.attr("y",25)
+				.attr("font-family", "sans-serif")
+				.attr("font-size", "30px")
+				.attr("font-weight", "bold")
+				.text("Q1");
+
+</script>
+<svg width="90" height="200">
+      <rect width="90" height="60" style="stroke-width:3;stroke:rgb(0,0,0);fill:rgb(255,255,255);"></rect>    
+      <rect width="20" height="10" x="10" y="15" style="fill:rgba(0,0,255,0.5);" />
+      <text x="33" y="24" >Budget</text>
+      <rect width="20" height="10" x="10" y="40" style="fill:rgba(0,255,0,0.5);" />
+      <text x="33" y="50" >Actual</text>
+</svg>
+
+	</body>
+</html>
